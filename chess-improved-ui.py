@@ -2,7 +2,7 @@ import chess
 import chess.svg
 import sys
 from PyQt5.QtCore import Qt, QTimer, QMimeData
-from PyQt5.QtGui import QDrag, QPixmap
+from PyQt5.QtGui import QDrag, QPixmap, QPainter
 from PyQt5.QtSvg import QSvgWidget, QSvgRenderer
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
                             QHBoxLayout, QPushButton, QLabel, QComboBox, QGridLayout,
@@ -40,8 +40,11 @@ class ChessPieceWidget(QLabel):
         renderer.load(bytes(piece_svg, 'utf-8'))
         pixmap = QPixmap(50, 50)
         pixmap.fill(Qt.transparent)
-        painter = pixmap.paintDevice()
+        
+        # Use QPainter to paint on the pixmap
+        painter = QPainter(pixmap)
         renderer.render(painter)
+        painter.end()
         
         # Set pixmap to label
         self.setPixmap(pixmap)
